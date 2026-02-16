@@ -63,33 +63,33 @@ describe('edit_equipment integration tests', () => {
 			}
 		});
 
-		// afterAll(async () => {
-		// 	// Cleanup: Delete test asset
-		// 	if (testAssetId) {
-		// 		try {
-		// 			await axios.delete(
-		// 				getMxApiUrl(`assets/${testAssetId}`),
-		// 				getMxHeaders()
-		// 			);
-		// 			console.log(`Deleted test asset: ${testAssetId}`);
-		// 		} catch (error) {
-		// 			console.error('Failed to delete test asset:', error.response?.data || error.message);
-		// 		}
-		// 	}
+		afterAll(async () => {
+			// Cleanup: Delete test asset
+			if (testAssetId) {
+				try {
+					await axios.delete(
+						getMxApiUrl(`assets/${testAssetId}`),
+						getMxHeaders()
+					);
+					console.log(`Deleted test asset: ${testAssetId}`);
+				} catch (error) {
+					console.error('Failed to delete test asset:', error.response?.data || error.message);
+				}
+			}
 
-		// 	// Cleanup: Delete test location
-		// 	if (testLocationId) {
-		// 		try {
-		// 			await axios.delete(
-		// 				getMxApiUrl(`locations/${testLocationId}`),
-		// 				getMxHeaders()
-		// 			);
-		// 			console.log(`Deleted test location: ${testLocationId}`);
-		// 		} catch (error) {
-		// 			console.error('Failed to delete test location:', error.response?.data || error.message);
-		// 		}
-		// 	}
-		// });
+			// Cleanup: Delete test location
+			if (testLocationId) {
+				try {
+					await axios.delete(
+						getMxApiUrl(`locations/${testLocationId}`),
+						getMxHeaders()
+					);
+					console.log(`Deleted test location: ${testLocationId}`);
+				} catch (error) {
+					console.error('Failed to delete test location:', error.response?.data || error.message);
+				}
+			}
+		});
 
 		describe('Update Scenario - Wholegood matches Equipment', () => {
 			it('should update equipment with RIMSS data overwriting MaintainX values', async () => {
@@ -297,27 +297,19 @@ describe('edit_equipment integration tests', () => {
 		});
 
 		describe('Error Handling', () => {
-			it('should log error when location lookup fails', async () => {
-				const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
-				await getLocationId({
+			it('should handle missing location without throwing', async () => {
+				const result = await getLocationId({
 					systemID: '9999',
 					wgUserDefinedField4: 'Valid Name But API Fails',
 				});
 
-				// Should handle gracefully without throwing
-				expect(consoleSpy).toHaveBeenCalledWith(
-					expect.stringContaining('Error fetching location'),
-					expect.any(Error)
-				);
-
-				consoleSpy.mockRestore();
+				expect(result).toBeUndefined();
 			});
 
 			it('should not throw when creating equipment with invalid location', async () => {
 				const wholegood = {
 					systemID: '9998',
-					make: 'TestMake',
+					make: 'Case',
 					serialNumber: 'TEST123',
 					wgUserDefinedField4: 'Invalid Location That Will Cause Error',
 				};
