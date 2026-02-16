@@ -4,12 +4,12 @@ const { getMxApiUrl, getMxHeaders } = require('./mx_api.js');
 
 function createEquipmentRecord(wholegood) {
     const equipmentRecord = {
-        name:wholegood.make + " " + wholegood.model, 
-        model: wholegood.model,
+        name:wholegood.make + " " + wholegood.model,
         extraFields: Object.fromEntries(
             Object.entries({
                 "Serial Number": wholegood.serialNumber,
                 "Eq Make": wholegood.make,
+                "Model": wholegood.model,
             }).filter(([key, value]) => value != null) // Filter out null or undefined values
         ),
     }

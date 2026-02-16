@@ -25,7 +25,6 @@ describe('edit_equipment utilities', () => {
 			const result = createEquipmentRecord(wholegood);
 
 			expect(result.name).toBe('Caterpillar 320D');
-			expect(result.model).toBe('320D');
 		});
 
 		it('should include serial number in extraFields', () => {
@@ -40,6 +39,7 @@ describe('edit_equipment utilities', () => {
 			expect(result.extraFields).toEqual({
 				'Serial Number': 'KOM123ABC',
 				'Eq Make': 'Komatsu',
+                'Model': 'PC200',
 			});
 		});
 
@@ -54,6 +54,7 @@ describe('edit_equipment utilities', () => {
 
 			expect(result.extraFields).toEqual({
 				'Eq Make': 'JCB',
+                'Model': '3CX',
 			});
 		});
 
@@ -68,6 +69,7 @@ describe('edit_equipment utilities', () => {
 
 			expect(result.extraFields).toEqual({
 				'Eq Make': 'Volvo',
+				'Model': 'L220H',
 			});
 		});
 	});
@@ -183,10 +185,10 @@ describe('edit_equipment utilities', () => {
 				expect.stringContaining('assets/963'),
 				expect.objectContaining({
 					name: 'Caterpillar 320D',
-					model: '320D',
 					extraFields: {
 						'Serial Number': 'CAT320D123456',
 						'Eq Make': 'Caterpillar',
+                        'Model': '320D',
 					},
 				}),
 				expect.any(Object)
@@ -236,11 +238,11 @@ describe('edit_equipment utilities', () => {
 				expect.stringContaining('assets'),
 				expect.objectContaining({
 					name: 'Komatsu PC200',
-					model: 'PC200',
 					locationId: 852,
 					extraFields: {
 						'Serial Number': 'KOM456DEF',
 						'Eq Make': 'Komatsu',
+                        'Model': 'PC200',
 					},
 				}),
 				expect.any(Object)
@@ -281,6 +283,7 @@ describe('edit_equipment utilities', () => {
 					extraFields: {
 						'Serial Number': 'VOL789GHI',
 						'Eq Make': 'Volvo',
+                        'Model': 'L220H',
 					},
 				}),
 				expect.any(Object)
@@ -391,7 +394,7 @@ describe('edit_equipment utilities', () => {
 			const postData = axios.post.mock.calls[0][1];
 			expect(postData.extraFields['Serial Number']).toBe('RIMSS_SERIAL_XYZ');
 			expect(postData.extraFields['Eq Make']).toBe('RIMSS_MAKE');
-			expect(postData.model).toBe('RIMSS_MODEL');
+			expect(postData.extraFields['Model']).toBe('RIMSS_MODEL');
 		});
 	});
 });
