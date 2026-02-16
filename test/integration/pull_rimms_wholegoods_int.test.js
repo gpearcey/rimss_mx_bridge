@@ -1,4 +1,4 @@
-const { fetchWholegoodsPage, getAllWholegoods, buildAuthHeader } = require('../../src/pull_rimss_wholegoods');
+const { fetchWholegoodsPage, getAllWholegoods, buildAuthHeader } = require('../../src/utils/pull_rimss_wholegoods');
 
 describe('Integration Tests for WNS Wholegoods API', () => {
 	// Note: These tests make real API calls and require valid credentials in .env

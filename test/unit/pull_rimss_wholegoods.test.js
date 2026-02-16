@@ -1,4 +1,4 @@
-const { buildUrl } = require('../../src/pull_rimss_wholegoods');
+const { buildUrl } = require('../../src/utils/pull_rimss_wholegoods');
 
 describe('Test wholegoods buildUrl', () => {
     it('should build the correct URL with specified parameters', () => {
