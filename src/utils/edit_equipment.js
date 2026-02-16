@@ -56,7 +56,7 @@ async function createEquipment(wholegood) {
         }
         const maintainXApiUrl = getMxApiUrl(`assets`);
         const response = await axios.post(maintainXApiUrl, updatedEquipmentRecord, getMxHeaders());
-        
+        return response.data;
     } catch (error) {
         console.error(`Error creating equipment for RIMSS ID ${wholegood.systemID}:`, error.response ? error.response.data : error.message);
     }

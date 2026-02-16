@@ -12,6 +12,7 @@ require('dotenv').config({ path: '.env.test' });
 describe('edit_equipment integration tests', () => {
 	let testLocationId;
 	let testAssetId;
+	const createdAssetIds = [];
 	const TEST_API_KEY = process.env.TEST_MX_API_KEY;
 
 	// Skip if TEST_MX_API_KEY not configured
@@ -64,6 +65,18 @@ describe('edit_equipment integration tests', () => {
 		});
 
 		afterAll(async () => {
+			for (const createdAssetId of createdAssetIds) {
+				try {
+					await axios.delete(
+						getMxApiUrl(`assets/${createdAssetId}`),
+						getMxHeaders()
+					);
+					console.log(`Deleted created asset: ${createdAssetId}`);
+				} catch (error) {
+					console.error('Failed to delete created asset:', error.response?.data || error.message);
+				}
+			}
+
 			// Cleanup: Delete test asset
 			if (testAssetId) {
 				try {
@@ -144,6 +157,10 @@ describe('edit_equipment integration tests', () => {
 					} catch (error) {
 						console.error('Failed to cleanup created asset:', error.response?.data || error.message);
 					}
+					const index = createdAssetIds.indexOf(createdAssetId);
+					if (index !== -1) {
+						createdAssetIds.splice(index, 1);
+					}
 					createdAssetId = null;
 				}
 			});
@@ -156,19 +173,10 @@ describe('edit_equipment integration tests', () => {
 					wgUserDefinedField4: 'Test Location RIMSS Integration',
 				};
 
-				// Capture the created asset ID from the axios post
-				const originalAxiosPost = axios.post;
-				axios.post = jest.fn(originalAxiosPost);
-
-				await createEquipment(wholegood);
-
-				// Get the created asset ID from the response
-				const postCall = axios.post.mock.results.find(r => 
-					r.value && r.value.data && r.value.data.id
-				);
-				
-				if (postCall && postCall.value && postCall.value.data) {
-					createdAssetId = postCall.value.data.id;
+				const createdAsset = await createEquipment(wholegood);
+				createdAssetId = createdAsset?.id;
+				if (createdAssetId) {
+					createdAssetIds.push(createdAssetId);
 				}
 
 				// If we got the ID, verify the asset was created correctly
@@ -193,26 +201,21 @@ describe('edit_equipment integration tests', () => {
 					serialNumber: 'VOLVO_L220H_5912',
 					wgUserDefinedField4: 'NonExistent Location That Does Not Exist',
 				};
-
-				const originalAxiosPost = axios.post;
-				axios.post = jest.fn(originalAxiosPost);
 				const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-				await createEquipment(wholegood);
+				const createdAsset = await createEquipment(wholegood);
+                console.log('Created asset response:', createdAsset);
+				createdAssetId = createdAsset?.id;
+				if (createdAssetId) {
+					createdAssetIds.push(createdAssetId);
+				}
 
 				// Should log that no location was assigned
 				expect(consoleSpy).toHaveBeenCalledWith(
 					expect.stringContaining('No location assigned')
 				);
 
-				// Get the created asset ID
-				const postCall = axios.post.mock.results.find(r => 
-					r.value && r.value.data && r.value.data.id
-				);
-				
-				if (postCall && postCall.value && postCall.value.data) {
-					createdAssetId = postCall.value.data.id;
-
+				if (createdAssetId) {
 					// Verify asset was created but without location
 					const response = await axios.get(
 						getMxApiUrl(`assets/${createdAssetId}`),
@@ -315,7 +318,10 @@ describe('edit_equipment integration tests', () => {
 				};
 
 				// Should not throw
-				await expect(createEquipment(wholegood)).resolves.not.toThrow();
+				const createdAsset = await createEquipment(wholegood);
+				if (createdAsset?.id) {
+					createdAssetIds.push(createdAsset.id);
+				}
 			});
 		});
 	});
