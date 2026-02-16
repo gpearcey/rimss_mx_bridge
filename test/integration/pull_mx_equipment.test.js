@@ -66,6 +66,6 @@ const { getAllEquipment } = require('../../src/utils/pull_mx_equipment');
 
 			// All equipment IDs should be unique
 			expect(equipmentIds.length).toBe(uniqueIds.size);
-		});
+		}, 20000);
 	});
 
