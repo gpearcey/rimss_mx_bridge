@@ -15,22 +15,20 @@ describe('edit_equipment utilities', () => {
 	});
 
 	describe('createEquipmentRecord', () => {
-		it('should create equipment record with name from make and model', () => {
+		it('should create equipment record with name from make', () => {
 			const wholegood = {
 				make: 'Caterpillar',
-				model: '320D',
 				serialNumber: 'CAT320D123456',
 			};
 
 			const result = createEquipmentRecord(wholegood);
 
-			expect(result.name).toBe('Caterpillar 320D');
+			expect(result.name).toBe('Caterpillar CAT320D123456');
 		});
 
 		it('should include serial number in extraFields', () => {
 			const wholegood = {
 				make: 'Komatsu',
-				model: 'PC200',
 				serialNumber: 'KOM123ABC',
 			};
 
@@ -39,14 +37,12 @@ describe('edit_equipment utilities', () => {
 			expect(result.extraFields).toEqual({
 				'Serial Number': 'KOM123ABC',
 				'Eq Make': 'Komatsu',
-                'Model': 'PC200',
 			});
 		});
 
 		it('should filter out null or undefined values from extraFields', () => {
 			const wholegood = {
 				make: 'JCB',
-				model: '3CX',
 				serialNumber: undefined,
 			};
 
@@ -54,14 +50,12 @@ describe('edit_equipment utilities', () => {
 
 			expect(result.extraFields).toEqual({
 				'Eq Make': 'JCB',
-                'Model': '3CX',
 			});
 		});
 
 		it('should handle missing serial number gracefully', () => {
 			const wholegood = {
 				make: 'Volvo',
-				model: 'L220H',
 				serialNumber: null,
 			};
 
@@ -69,7 +63,6 @@ describe('edit_equipment utilities', () => {
 
 			expect(result.extraFields).toEqual({
 				'Eq Make': 'Volvo',
-				'Model': 'L220H',
 			});
 		});
 	});
@@ -166,7 +159,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5905',
 				make: 'Caterpillar',
-				model: '320D',
 				serialNumber: 'CAT320D123456',
 			};
 
@@ -184,11 +176,10 @@ describe('edit_equipment utilities', () => {
 			expect(axios.patch).toHaveBeenCalledWith(
 				expect.stringContaining('assets/963'),
 				expect.objectContaining({
-					name: 'Caterpillar 320D',
+					name: 'Caterpillar CAT320D123456',
 					extraFields: {
 						'Serial Number': 'CAT320D123456',
 						'Eq Make': 'Caterpillar',
-                        'Model': '320D',
 					},
 				}),
 				expect.any(Object)
@@ -196,7 +187,7 @@ describe('edit_equipment utilities', () => {
 		});
 
 		it('should handle update errors gracefully', async () => {
-			const wholegood = { systemID: '5907', make: 'JCB', model: '3CX', serialNumber: 'JCB123' };
+			const wholegood = { systemID: '5907', make: 'JCB', serialNumber: 'JCB123' };
 			const equipment = { id: 123 };
 
 			const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
@@ -217,7 +208,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5911',
 				make: 'Komatsu',
-				model: 'PC200',
 				serialNumber: 'KOM456DEF',
 				wgUserDefinedField4: 'Main Warehouse',
 			};
@@ -237,12 +227,11 @@ describe('edit_equipment utilities', () => {
 			expect(axios.post).toHaveBeenCalledWith(
 				expect.stringContaining('assets'),
 				expect.objectContaining({
-					name: 'Komatsu PC200',
+					name: 'Komatsu KOM456DEF',
 					locationId: 852,
 					extraFields: {
 						'Serial Number': 'KOM456DEF',
 						'Eq Make': 'Komatsu',
-                        'Model': 'PC200',
 					},
 				}),
 				expect.any(Object)
@@ -259,7 +248,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5912',
 				make: 'Volvo',
-				model: 'L220H',
 				serialNumber: 'VOL789GHI',
 				wgUserDefinedField4: 'Unknown Location',
 			};
@@ -279,11 +267,10 @@ describe('edit_equipment utilities', () => {
 			expect(axios.post).toHaveBeenCalledWith(
 				expect.stringContaining('assets'),
 				expect.objectContaining({
-					name: 'Volvo L220H',
+					name: 'Volvo VOL789GHI',
 					extraFields: {
 						'Serial Number': 'VOL789GHI',
 						'Eq Make': 'Volvo',
-                        'Model': 'L220H',
 					},
 				}),
 				expect.any(Object)
@@ -304,7 +291,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5913',
 				make: 'JCB',
-				model: '3CX',
 				serialNumber: 'JCB999',
 			};
 
@@ -325,7 +311,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5914',
 				make: 'CAT',
-				model: '320',
 				serialNumber: 'CAT123',
 				wgUserDefinedField4: 'Warehouse C',
 			};
@@ -355,7 +340,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5905',
 				make: 'NEW_MAKE',
-				model: 'NEW_MODEL',
 				serialNumber: 'NEW_SERIAL_123',
 			};
 
@@ -381,7 +365,6 @@ describe('edit_equipment utilities', () => {
 			const wholegood = {
 				systemID: '5911',
 				make: 'RIMSS_MAKE',
-				model: 'RIMSS_MODEL',
 				serialNumber: 'RIMSS_SERIAL_XYZ',
 			};
 
@@ -394,7 +377,6 @@ describe('edit_equipment utilities', () => {
 			const postData = axios.post.mock.calls[0][1];
 			expect(postData.extraFields['Serial Number']).toBe('RIMSS_SERIAL_XYZ');
 			expect(postData.extraFields['Eq Make']).toBe('RIMSS_MAKE');
-			expect(postData.extraFields['Model']).toBe('RIMSS_MODEL');
 		});
 	});
 });

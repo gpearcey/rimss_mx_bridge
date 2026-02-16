@@ -95,8 +95,7 @@ describe('edit_equipment integration tests', () => {
 			it('should update equipment with RIMSS data overwriting MaintainX values', async () => {
 				const wholegood = {
 					systemID: '5905',
-					make: 'Caterpillar',
-					model: '320D',
+					make: 'Case',
 					serialNumber: 'CAT320D_RIMSS_5905',
 					wgUserDefinedField4: 'Test Location RIMSS Integration',
 				};
@@ -111,10 +110,9 @@ describe('edit_equipment integration tests', () => {
 				);
 
 				const asset = response.data.asset;
-				expect(asset.name).toBe('Caterpillar 320D');
-				expect(asset.model).toBe('320D');
+				expect(asset.name).toBe('Case CAT320D_RIMSS_5905');
 				expect(asset.extraFields['Serial Number']).toBe('CAT320D_RIMSS_5905');
-				expect(asset.extraFields['Eq Make']).toBe('Caterpillar');
+				expect(asset.extraFields['Eq Make']).toBe('Case');
 			});
 
 			it('should verify Serial Number from RIMSS overwrites original MaintainX data', async () => {
@@ -153,8 +151,7 @@ describe('edit_equipment integration tests', () => {
 			it('should create new equipment with RIMSS data and linked location', async () => {
 				const wholegood = {
 					systemID: '5911',
-					make: 'Komatsu',
-					model: 'PC200',
+					make: 'AMI',
 					serialNumber: 'KOMATSU_PC200_5911',
 					wgUserDefinedField4: 'Test Location RIMSS Integration',
 				};
@@ -182,10 +179,9 @@ describe('edit_equipment integration tests', () => {
 					);
 
 					const asset = response.data.asset;
-					expect(asset.name).toBe('Komatsu PC200');
-					expect(asset.model).toBe('PC200');
+					expect(asset.name).toBe('AMI KOMATSU_PC200_5911');
 					expect(asset.extraFields['Serial Number']).toBe('KOMATSU_PC200_5911');
-					expect(asset.extraFields['Eq Make']).toBe('Komatsu');
+					expect(asset.extraFields['Eq Make']).toBe('AMI');
 					expect(asset.locationId).toBe(testLocationId);
 				}
 			});
@@ -193,8 +189,7 @@ describe('edit_equipment integration tests', () => {
 			it('should create equipment without location when location name not found', async () => {
 				const wholegood = {
 					systemID: '5912',
-					make: 'Volvo',
-					model: 'L220H',
+					make: 'Tramac',
 					serialNumber: 'VOLVO_L220H_5912',
 					wgUserDefinedField4: 'NonExistent Location That Does Not Exist',
 				};
@@ -225,7 +220,7 @@ describe('edit_equipment integration tests', () => {
 					);
 
 					const asset = response.data.asset;
-					expect(asset.name).toBe('Volvo L220H');
+					expect(asset.name).toBe('Tramac VOLVO_L220H_5912');
 					expect(asset.extraFields['Serial Number']).toBe('VOLVO_L220H_5912');
 					// locationId should be null or undefined
 					expect(asset.locationId).toBeNull();
@@ -268,8 +263,7 @@ describe('edit_equipment integration tests', () => {
 			it('Serial Number field should contain RIMSS serialNumber exactly', async () => {
 				const wholegood = {
 					systemID: '5913',
-					make: 'JCB',
-					model: '3CX',
+					make: 'Ammann',
 					serialNumber: 'JCB_3CX_SERIAL_XYZ789',
 				};
 
@@ -280,27 +274,25 @@ describe('edit_equipment integration tests', () => {
 			it('Eq Make field should contain RIMSS make exactly', async () => {
 				const wholegood = {
 					systemID: '5914',
-					make: 'Hitachi',
-					model: 'EX200',
-					serialNumber: 'HITA_EX200_12345',
+					make: 'Cormidi',
+					serialNumber: 'CORMIDI_EX200_12345',
 				};
 
 				const record = createEquipmentRecord(wholegood);
-				expect(record.extraFields['Eq Make']).toBe('Hitachi');
+				expect(record.extraFields['Eq Make']).toBe('Cormidi');
 			});
 
 			it('should handle special characters in RIMSS data', async () => {
 				const wholegood = {
 					systemID: '5915',
-					make: 'Cat & Co.',
-					model: 'Model-X/Y',
+					make: 'Link-Belt',
 					serialNumber: 'SN-2024/001-ABC',
 				};
 
 				const record = createEquipmentRecord(wholegood);
-				expect(record.name).toBe('Cat & Co. Model-X/Y');
+				expect(record.name).toBe('Link-Belt SN-2024/001-ABC');
 				expect(record.extraFields['Serial Number']).toBe('SN-2024/001-ABC');
-				expect(record.extraFields['Eq Make']).toBe('Cat & Co.');
+				expect(record.extraFields['Eq Make']).toBe('Link-Belt');
 			});
 		});
 
@@ -326,7 +318,6 @@ describe('edit_equipment integration tests', () => {
 				const wholegood = {
 					systemID: '9998',
 					make: 'TestMake',
-					model: 'TestModel',
 					serialNumber: 'TEST123',
 					wgUserDefinedField4: 'Invalid Location That Will Cause Error',
 				};
