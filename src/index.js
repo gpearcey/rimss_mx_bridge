@@ -1,5 +1,5 @@
 const { getAllWholegoods } = require('./pull_rimss_wholegoods.js');
-const { getAllEquipment } = require('./utils/equipment.js');
+const { getAllEquipment } = require('./utils/pull_mx_equipment.js');
 
 if (require.main === module) {
 	getAllWholegoods()
@@ -19,4 +19,6 @@ if (require.main === module) {
 			console.error(error);
 			process.exitCode = 1;
 		});
+
+	
 }

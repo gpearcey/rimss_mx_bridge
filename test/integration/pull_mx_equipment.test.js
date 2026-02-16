@@ -1,4 +1,4 @@
-const { getAllEquipment } = require('../../src/utils/equipment');
+const { getAllEquipment } = require('../../src/utils/pull_mx_equipment');
 
 	// Note: These tests make real API calls and require valid MX_API_KEY in .env
 	// Use describe.skip to prevent running in CI pipelines
