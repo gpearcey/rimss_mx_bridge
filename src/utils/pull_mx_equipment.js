@@ -10,6 +10,8 @@ const getAllEquipment = async (rimssCustomFieldName = 'RIMSS ID') => {
 	const equipment = [];
 	let cursor = null;
 	const limit = 100; // Max allowed by API
+	const sleepMs = 250;
+	const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	try {
 		while (true) {
@@ -62,6 +64,8 @@ const getAllEquipment = async (rimssCustomFieldName = 'RIMSS ID') => {
 			}
 
 			cursor = data.nextCursor;
+			await sleep(sleepMs);
+
 		}
 
 		console.log(`✓ Successfully fetched ${equipment.length} total equipment records`);
