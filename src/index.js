@@ -1,4 +1,4 @@
-const { getAllWholegoods } = require('./pull_rimss_wholegoods.js');
+const { getAllWholegoods } = require('./utils/pull_rimss_wholegoods.js');
 const { getAllEquipment } = require('./utils/pull_mx_equipment.js');
 
 if (require.main === module) {
