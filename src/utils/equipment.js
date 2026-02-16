@@ -61,12 +61,10 @@ const getAllEquipment = async (rimssCustomFieldName = 'RIMSS ID') => {
 				equipment.push({
 					equipmentId: asset.id,
 					rimssId: rimssId,
-					name: asset.name,
-					description: asset.description || null,
 				});
 
 				console.log(
-					`Found equipment: ID=${asset.id}, Name=${asset.name}, RIMSS ID=${rimssId || 'N/A'}`
+					`Found equipment: ID=${asset.id}, RIMSS ID=${rimssId || 'N/A'}`
 				);
 			}
 

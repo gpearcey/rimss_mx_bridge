@@ -20,8 +20,6 @@ const { getAllEquipment } = require('../../src/utils/equipment');
 			const firstEquipment = equipment[0];
 			expect(firstEquipment).toHaveProperty('equipmentId');
 			expect(firstEquipment).toHaveProperty('rimssId');
-			expect(firstEquipment).toHaveProperty('name');
-			expect(firstEquipment).toHaveProperty('description');
 		});
 
 		it('should have valid data types', async () => {
@@ -32,8 +30,6 @@ const { getAllEquipment } = require('../../src/utils/equipment');
 			equipment.slice(0, 5).forEach(item => {
 				expect(typeof item.equipmentId).toBe('number');
 				expect(item.rimssId === null || typeof item.rimssId === 'string').toBe(true);
-				expect(typeof item.name).toBe('string');
-				expect(item.description === null || typeof item.description === 'string').toBe(true);
 			});
 		});
 
