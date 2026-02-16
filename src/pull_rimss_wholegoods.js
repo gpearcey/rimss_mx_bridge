@@ -104,4 +104,6 @@ const getAllWholegoods = async ({
 module.exports = {
 	getAllWholegoods,
 	fetchWholegoodsPage,
+	buildUrl,
+	buildAuthHeader,
 };

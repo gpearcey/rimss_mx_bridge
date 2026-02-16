@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --testPathPatterns=test/unit",
+    "test:unit": "jest --testPathPatterns=test/unit",
+    "test:integration": "jest --testPathPatterns=test/integration",
+    "test:all": "jest"
   },
   "keywords": [],
   "author": "",
@@ -11,5 +14,8 @@
   "description": "",
   "dependencies": {
     "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }
