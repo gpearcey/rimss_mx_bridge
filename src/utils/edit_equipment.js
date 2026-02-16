@@ -19,10 +19,12 @@ async function getLocationId(wholegood) {
     try{
         if (wholegood.wgUserDefinedField4) {
             const locationName = wholegood.wgUserDefinedField4;
+           // console.log('Location Name from wgUserDefinedField4: ' + locationName);
             const maintainXApiUrl = getMxApiUrl(`locations?name=${encodeURIComponent(locationName)}`);
             const response = await axios.get(maintainXApiUrl, getMxHeaders());
-            if (response.data && response.data.length > 0) {
-                return response.data[0].id;
+            if (response.data.locations[0]?.id) {
+               // console.log(`Found location ID ${response.data.locations[0].id} for location name "${locationName}"`);
+                return response.data.locations[0].id;
             }
         }
     } catch (error){
