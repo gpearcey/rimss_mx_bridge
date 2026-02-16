@@ -105,7 +105,7 @@ describe('edit_equipment integration tests', () => {
 
 				// Verify equipment was updated
 				const response = await axios.get(
-					getMxApiUrl(`assets/${testAssetId}?expand=extra_fields`),
+					getMxApiUrl(`assets/${testAssetId}`),
 					getMxHeaders()
 				);
 
@@ -117,7 +117,7 @@ describe('edit_equipment integration tests', () => {
 
 			it('should verify Serial Number from RIMSS overwrites original MaintainX data', async () => {
 				const response = await axios.get(
-					getMxApiUrl(`assets/${testAssetId}?expand=extra_fields`),
+					getMxApiUrl(`assets/${testAssetId}`),
 					getMxHeaders()
 				);
 
@@ -174,7 +174,7 @@ describe('edit_equipment integration tests', () => {
 				// If we got the ID, verify the asset was created correctly
 				if (createdAssetId) {
 					const response = await axios.get(
-						getMxApiUrl(`assets/${createdAssetId}?expand=extra_fields`),
+						getMxApiUrl(`assets/${createdAssetId}`),
 						getMxHeaders()
 					);
 
@@ -215,7 +215,7 @@ describe('edit_equipment integration tests', () => {
 
 					// Verify asset was created but without location
 					const response = await axios.get(
-						getMxApiUrl(`assets/${createdAssetId}?expand=extra_fields`),
+						getMxApiUrl(`assets/${createdAssetId}`),
 						getMxHeaders()
 					);
 
