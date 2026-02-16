@@ -1,4 +1,6 @@
-const DEFAULT_BASE_URL = "http://192.168.45.10/WNSAPI";
+require("dotenv").config();
+
+const DEFAULT_BASE_URL = "http://192.168.45.10/WNSAPI/";
 const DEFAULT_PARAMS = {
 	APIName: "TestDameonService",
 	LocationID: "3",
@@ -22,7 +24,7 @@ const buildAuthHeader = () => {
 };
 
 const buildUrl = ({ baseUrl, params, limit, offset }) => {
-	const url = new URL("/api/WNSWholegood", baseUrl);
+	const url = new URL("api/WNSWholegood", baseUrl);
 	const query = new URLSearchParams({
 		...params,
 		Limit: String(limit),
@@ -35,6 +37,7 @@ const buildUrl = ({ baseUrl, params, limit, offset }) => {
 
 const fetchWholegoodsPage = async ({ baseUrl, params, limit, offset, authHeader }) => {
 	const url = buildUrl({ baseUrl, params, limit, offset });
+	console.log('Requesting URL:', url.toString());
 	const headers = {
 		Accept: "application/json",
 	};
@@ -81,7 +84,8 @@ const getAllWholegoods = async ({
 
 		for (const wholegood of batch) {
 			fetchedCount += 1;
-			console.log(`Fetched #${fetchedCount} SystemID=${wholegood.SystemID}`);
+			console.log(`Fetched #${fetchedCount} SystemID=${wholegood.systemID}`);
+			//console.log(JSON.stringify(wholegood, null, 2));
 		}
 
 		allWholegoods.push(...batch);
