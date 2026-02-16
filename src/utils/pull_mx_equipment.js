@@ -1,17 +1,5 @@
 require("dotenv").config();
-
-const getMxApiUrl = (endpoint) => {
-	return `https://api.getmaintainx.com/v1/${endpoint}`;
-};
-
-const getMxHeaders = () => {
-	return {
-		headers: {
-			Authorization: `Bearer ${process.env.MX_API_KEY}`,
-			'Content-Type': 'application/json',
-		},
-	};
-};
+const { getMxApiUrl, getMxHeaders } = require('./mx_api.js');
 
 /**
  * Fetch all equipment/assets from MaintainX
