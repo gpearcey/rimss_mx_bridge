@@ -84,7 +84,7 @@ const getAllWholegoods = async ({
 
 		for (const wholegood of batch) {
 			fetchedCount += 1;
-			console.log(`Fetched #${fetchedCount} SystemID=${wholegood.systemID}`);
+			//console.log(`Fetched #${fetchedCount} SystemID=${wholegood.systemID}`);
 			//console.log(JSON.stringify(wholegood, null, 2));
 		}
 

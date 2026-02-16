@@ -51,9 +51,9 @@ const getAllEquipment = async (rimssCustomFieldName = 'RIMSS ID') => {
 					rimssId: rimssId,
 				});
 
-				console.log(
-					`Found equipment: ID=${asset.id}, RIMSS ID=${rimssId || 'N/A'}`
-				);
+				// console.log(
+				// 	`Found equipment: ID=${asset.id}, RIMSS ID=${rimssId || 'N/A'}`
+				// );
 			}
 
 			// Check if there are more pages
